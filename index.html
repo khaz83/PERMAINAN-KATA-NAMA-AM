@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bijak Kata Nama Am - Tahun 1</title>
+    <!-- Manifest untuk PWA -->
+    <link rel="manifest" href="data:application/manifest+json,{'name':'Bijak Kata Nama Am','short_name':'BijakKNA','start_url':'.','display':'standalone','background_color':'#f0f9ff','theme_color':'#60a5fa'}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
@@ -16,12 +20,34 @@
         .card-bounce:hover { transform: scale(1.05); transition: 0.3s; }
         .hidden-section { display: none; }
         .gradient-bg { background: linear-gradient(135deg, #60a5fa, #a855f7); }
+        
+        .download-icon:hover {
+            color: #3b82f6;
+            transform: translateY(-2px);
+            transition: all 0.2s;
+        }
+
+        /* Status Offline Indicator */
+        #offline-tag {
+            display: none;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
 
+    <!-- Indikator Status Offline -->
+    <div id="offline-tag" class="fixed top-2 right-2 bg-red-500 text-white text-[10px] px-2 py-1 rounded-full font-bold z-50">
+        MOD LUAR TALIAN
+    </div>
+
     <!-- Splash Screen / Menu Utama -->
-    <div id="menu-section" class="w-full max-w-md text-center mt-10">
+    <div id="menu-section" class="w-full max-w-md text-center mt-6">
         <div class="bg-white rounded-3xl shadow-xl p-8 border-4 border-blue-400">
             <h1 class="font-kids text-4xl text-blue-600 mb-2">BIJAK KATA NAMA AM</h1>
             <p class="text-gray-600 mb-6 font-bold">Tahun 1 (KSSR)</p>
@@ -38,8 +64,34 @@
                 </button>
             </div>
             
-            <div class="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-200">
-                <p class="text-sm text-blue-800">Mari belajar sambil bermain! Pilih aras anda.</p>
+            <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                <div class="flex items-center justify-center text-green-600 mb-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 mr-1"></i>
+                    <span class="text-[10px] font-bold">SOKONGAN LUAR TALIAN AKTIF</span>
+                </div>
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Muat Turun & Pasang</p>
+                <div class="flex justify-around items-center text-gray-400 px-4">
+                    <div class="flex flex-col items-center download-icon" title="Laptop / PC">
+                        <i data-lucide="monitor" class="w-6 h-6"></i>
+                        <span class="text-[10px] mt-1 font-bold">Laptop</span>
+                    </div>
+                    <div class="flex flex-col items-center download-icon" title="Smartphone">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                        <span class="text-[10px] mt-1 font-bold">Phone</span>
+                    </div>
+                    <div class="flex flex-col items-center download-icon" title="iPad / Tablet">
+                        <i data-lucide="tablet" class="w-6 h-6"></i>
+                        <span class="text-[10px] mt-1 font-bold">iPad/Tab</span>
+                    </div>
+                    <div class="flex flex-col items-center download-icon" title="GitHub">
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                        <span class="text-[10px] mt-1 font-bold">GitHub</span>
+                    </div>
+                </div>
+                <button id="install-btn" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-md hover:bg-blue-700 transition flex items-center mx-auto hidden">
+                    <i data-lucide="download" class="w-3 h-3 mr-1"></i> PASANG SEKARANG
+                </button>
+                <p class="mt-2 text-[10px] text-gray-400 italic">Boleh dimainkan tanpa internet selepas dipasang.</p>
             </div>
         </div>
     </div>
@@ -48,7 +100,9 @@
     <div id="game-section" class="w-full max-w-md hidden-section mt-4">
         <div class="bg-white rounded-3xl shadow-xl p-6 border-4 border-blue-400">
             <div class="flex justify-between items-center mb-4">
-                <button onclick="showMenu()" class="text-gray-500 font-bold">Kembali</button>
+                <button onclick="showMenu()" class="text-gray-500 font-bold flex items-center">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> Kembali
+                </button>
                 <div class="bg-blue-100 px-4 py-1 rounded-full text-blue-700 font-bold" id="level-indicator">Aras</div>
             </div>
 
@@ -56,9 +110,7 @@
                 <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-500" style="width: 0%"></div>
             </div>
 
-            <div id="question-container" class="text-center">
-                <!-- Soalan akan dijana di sini -->
-            </div>
+            <div id="question-container" class="text-center"></div>
         </div>
     </div>
 
@@ -78,145 +130,17 @@
         </div>
     </div>
 
-    <!-- Message UI -->
-    <div id="feedback-toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold hidden-section transition-opacity duration-300">
+    <div id="feedback-toast" class="fixed bottom-10 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-full text-white font-bold hidden-section transition-opacity duration-300 z-50">
     </div>
 
     <script>
-        const levels = {
-            rendah: {
-                title: "Aras Rendah",
-                questions: [
-                    { q: "Mana satu Kata Nama Am bagi 'Haiwan'?", options: ["Kucing", "Meow", "Lari"], correct: 0 },
-                    { q: "Pilih objek yang merupakan Kata Nama Am:", options: ["Besar", "Meja", "Cantik"], correct: 1 },
-                    { q: "Emak pergi ke ____. (Benda/Tempat)", options: ["Makan", "Tidur", "Pasar"], correct: 2 },
-                    { q: "Ayah pakai ____ ke pejabat.", options: ["Kemeja", "Merah", "Suka"], correct: 0 },
-                    { q: "Pilih Kata Nama Am bagi 'Orang':", options: ["Guru", "Ahmad", "Pandai"], correct: 0 }
-                ],
-                tpRange: [1, 2]
-            },
-            sederhana: {
-                title: "Aras Sederhana",
-                questions: [
-                    { q: "Kelaskan: 'Sekolah' adalah kategori...", options: ["Benda", "Tempat", "Haiwan"], correct: 1 },
-                    { q: "Antara berikut, yang mana bukan Kata Nama Am?", options: ["Buku", "Si Comel", "Pensel"], correct: 1 },
-                    { q: "Ibu membeli sayur di ____.", options: ["Padang", "Pasar", "Sekolah"], correct: 1 },
-                    { q: "____ itu sedang menyalak.", options: ["Kucing", "Anjing", "Ayam"], correct: 1 },
-                    { q: "____ mengajar kami di dalam kelas.", options: ["Doktor", "Polis", "Guru"], correct: 2 }
-                ],
-                tpRange: [3, 4]
-            },
-            tinggi: {
-                title: "Aras Tinggi",
-                questions: [
-                    { q: "Lengkapkan ayat: Saya membaca ____ di perpustakaan.", options: ["Buku", "Meja", "Lantai"], correct: 0 },
-                    { q: "Pilih ayat yang menggunakan Kata Nama Am dengan betul:", options: ["Adik makan Ahmad.", "Adik makan pisang.", "Adik makan merah."], correct: 1 },
-                    { q: "Ali dan Abu bermain bola di ____.", options: ["Langit", "Padang", "Air"], correct: 1 },
-                    { q: "Abang menunggang ____ untuk ke pekan.", options: ["Basikal", "Kasut", "Baju"], correct: 0 },
-                    { q: "Pilih kata nama am untuk benda yang kita gunakan untuk menulis:", options: ["Buku", "Pemadam", "Pensel"], correct: 2 }
-                ],
-                tpRange: [5, 6]
-            }
-        };
+        lucide.createIcons();
 
-        let currentLevel = null;
-        let currentQuestionIdx = 0;
-        let score = 0;
+        // PWA Logic & Offline Setup
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
 
-        function showMenu() {
-            document.getElementById('menu-section').classList.remove('hidden-section');
-            document.getElementById('game-section').classList.add('hidden-section');
-            document.getElementById('result-section').classList.add('hidden-section');
-        }
-
-        function startLevel(lvl) {
-            currentLevel = levels[lvl];
-            currentQuestionIdx = 0;
-            score = 0;
-            
-            document.getElementById('level-indicator').innerText = currentLevel.title;
-            document.getElementById('menu-section').classList.add('hidden-section');
-            document.getElementById('game-section').classList.remove('hidden-section');
-            
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const question = currentLevel.questions[currentQuestionIdx];
-            const progress = (currentQuestionIdx / currentLevel.questions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-
-            let html = `
-                <h3 class="text-xl font-bold text-gray-800 mb-6">${question.q}</h3>
-                <div class="grid grid-cols-1 gap-4">
-            `;
-
-            question.options.forEach((opt, idx) => {
-                html += `
-                    <button onclick="checkAnswer(${idx})" class="w-full py-4 px-6 bg-blue-50 border-2 border-blue-200 rounded-2xl hover:bg-blue-100 hover:border-blue-400 font-bold text-blue-800 transition">
-                        ${opt}
-                    </button>
-                `;
-            });
-
-            html += `</div>`;
-            document.getElementById('question-container').innerHTML = html;
-        }
-
-        function checkAnswer(idx) {
-            const correct = currentLevel.questions[currentQuestionIdx].correct;
-            const toast = document.getElementById('feedback-toast');
-            
-            if (idx === correct) {
-                score++;
-                showFeedback("Betul! Hebat!", "bg-green-500");
-            } else {
-                showFeedback("Ups! Cuba lagi.", "bg-red-500");
-            }
-
-            setTimeout(() => {
-                currentQuestionIdx++;
-                if (currentQuestionIdx < currentLevel.questions.length) {
-                    showQuestion();
-                } else {
-                    showResult();
-                }
-            }, 1000);
-        }
-
-        function showFeedback(msg, color) {
-            const toast = document.getElementById('feedback-toast');
-            toast.innerText = msg;
-            toast.className = `fixed bottom-10 left-1/2 transform -translate-x-1/2 px-8 py-3 rounded-full text-white font-bold shadow-lg z-50 ${color}`;
-            toast.classList.remove('hidden-section');
-            setTimeout(() => toast.classList.add('hidden-section'), 800);
-        }
-
-        function showResult() {
-            document.getElementById('game-section').classList.add('hidden-section');
-            document.getElementById('result-section').classList.remove('hidden-section');
-            
-            const totalQuestions = currentLevel.questions.length;
-            const percentage = (score / totalQuestions);
-            let tp = 1;
-            let desc = "";
-
-            // Logic TP berdasarkan aras dan markah
-            if (currentLevel.title.includes("Rendah")) {
-                tp = percentage > 0.6 ? 2 : 1;
-                desc = tp === 2 ? "Murid boleh mengenal pasti kata nama am dengan bimbingan." : "Murid mula mengenal kata nama am.";
-            } else if (currentLevel.title.includes("Sederhana")) {
-                tp = percentage > 0.8 ? 4 : 3;
-                desc = tp === 4 ? "Murid boleh mengelaskan kata nama am mengikut kategori dengan betul." : "Murid memahami penggunaan kata nama am dalam konteks terhad.";
-            } else {
-                tp = percentage > 0.8 ? 6 : 5;
-                desc = tp === 6 ? "Murid sangat cemerlang, boleh membina ayat kreatif menggunakan kata nama am dan menjadi contoh kepada rakan." : "Murid boleh menggunakan kata nama am untuk membina ayat yang betul dan bermakna.";
-            }
-
-            document.getElementById('tp-badge').innerText = `TP ${tp}`;
-            document.getElementById('tp-desc').innerText = `Deskripsi: ${desc}`;
-            document.getElementById('result-text').innerText = `Skor anda: ${score} / ${totalQuestions}`;
-        }
-    </script>
-</body>
-</html>
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('
