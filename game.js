@@ -62,6 +62,7 @@ function loadLevel() {
         container.appendChild(span);
         container.appendchild(document.createTextNode(" "));
     });
+}
         
         span.onclick = () => {
             if (levels[currentLevel].a.includes(cleanWord)) {
