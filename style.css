@@ -90,3 +90,20 @@ button {
     padding: 10px;
     border: 1px solid #eee;
 }
+
+/* Untuk skrin telefon yang lebih kecil */
+@media (max-width: 400px) {
+    .sentence {
+        font-size: 1.2rem; /* Kecilkan sedikit tulisan ayat */
+    }
+    
+    .word {
+        padding: 6px 10px; /* Kecilkan butang perkataan */
+        font-size: 1rem;
+    }
+
+    .game-img {
+        width: 120px; /* Kecilkan gambar sedikit */
+        height: 120px;
+    }
+}
