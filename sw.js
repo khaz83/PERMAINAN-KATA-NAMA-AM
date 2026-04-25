@@ -5,6 +5,8 @@ const assets = [
   './style.css',
   './game.js',
   './manifest.json'
+  './buku.png'
+//Tambah semua laluan gambar di sini...
 ];
 
 self.addEventListener('install', e => {
