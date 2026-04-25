@@ -4,7 +4,7 @@ const assets = [
   './index.html',
   './style.css',
   './game.js',
-  './manifest.json'
+  './manifest.json',
   './buku.png'
 //Tambah semua laluan gambar di sini...
 ];
