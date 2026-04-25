@@ -34,7 +34,6 @@ function loadLevel() {
     const progressBar = document.getElementById('progress-bar');
     
     if (!container) return;
-
     container.innerHTML = '';
     nextBtn.style.display = 'none';
     foundInLevel = 0;
@@ -42,7 +41,6 @@ function loadLevel() {
     titleText.innerText = levels[currentLevel].title;
     instructionText.innerHTML = `<span style="color:#007bff; font-weight:bold;">[${levels[currentLevel].tp}]</span> ${levels[currentLevel].instruction}`;
     
-    // 1. PAPAR GAMBAR
     if (levels[currentLevel].img) {
         const imgTag = document.createElement('img');
         imgTag.src = levels[currentLevel].img;
@@ -62,15 +60,12 @@ function loadLevel() {
         span.innerText = word;
         span.className = 'word';
 
-        // 2. LOGIK KLIK
         span.onclick = () => {
-            // Bandingkan jawapan (abaikan huruf besar/kecil)
-            const isCorrect = levels[currentLevel].a.some(jawapan => 
-                jawapan.toLowerCase() === cleanWord.toLowerCase()
+            const isCorrect = levels[currentLevel].a.some(ans => 
+                ans.toLowerCase() === cleanWord.toLowerCase()
             );
 
             if (isCorrect) {
-                // JAWAPAN BETUL
                 if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
                     span.style.backgroundColor = "#28a745";
                     span.style.color = "white";
@@ -82,19 +77,15 @@ function loadLevel() {
                     }
                 }
             } else {
-                // JAWAPAN SALAH
                 if (span.style.backgroundColor !== "rgb(220, 53, 69)") {
                     span.style.backgroundColor = "#dc3545";
                     span.style.color = "white";
                     lives--;
                     updateUI();
-                    if (lives <= 0) {
-                        gameOver("Nyawa Habis! Cuba lagi.");
-                    }
+                    if (lives <= 0) gameOver("Nyawa Habis! Cuba lagi.");
                 }
             }
         };
-
         container.appendChild(span);
         container.appendChild(document.createTextNode(" "));
     });
@@ -121,5 +112,5 @@ function gameOver(msg) {
     location.reload();
 }
 
-// MULA GAME
+// MULA GAME - Pastikan ejaan addEventListener betul
 document.addEventListener('DOMContentLoaded', loadLevel);
