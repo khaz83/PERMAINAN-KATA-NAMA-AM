@@ -87,7 +87,7 @@ function loadLevel() {
             }
         };
         container.appendChild(span);
-        container.appendchild(document.createTextNode(" "));
+        container.appendChild(document.createTextNode(" "));
     });
 }
         
@@ -113,4 +113,4 @@ function gameOver(msg) {
 }
 
 //Mula Game
-document.addEventListerner('DOMContentLoaded',loadLevel);
+document.addEventListener('DOMContentLoaded',loadLevel);
