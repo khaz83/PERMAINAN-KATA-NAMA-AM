@@ -62,7 +62,56 @@ function loadLevel() {
         
     //2. LOGIK KLIK (Mesti berada di dalam foeEach)
     span.onclick = () => {
+    // Tambah .toLowerCase() pada kedua-dua pihak untuk perbandingan yang adil
+    const isCorrect = levels[currentLevel].a.some(answer => 
+        answer.toLowerCase() === cleanWord.toLowerCase()
+    );
+
+        if (isCorrect) {
+        if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
+            span.style.backgroundColor = "#28a745";
+            span.style.color = "white";
+            score += 10;
+            foundInLevel++;
+            updateUI();
+            if (foundInLevel === levels[currentLevel].a.length) {
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        }
+    } else {
+        // ... kod untuk jawapan salah tetap sama ...
+    }
+};
+        
         if (levels[currentLevel].a.includes(cleanWord)) {
+        // Kod baru yang lebih selamat:
+const isCorrect = levels[currentLevel].a.some(jawapan => 
+    jawapan.toLowerCase() === cleanWord.toLowerCase()
+);
+
+if (isCorrect) {
+    if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
+        span.style.backgroundColor = "#28a745";
+        span.style.color = "white";
+        score += 10;
+        foundInLevel++;
+        updateUI();
+        if (foundInLevel === levels[currentLevel].a.length) {
+            nextBtn.style.display = 'block';
+        }
+    }
+} else {
+    // Bahagian JAWAPAN SALAH kekal sama seperti kod anda
+    if (span.style.backgroundColor !== "rgb(220, 53, 69)") {
+        span.style.backgroundColor = "#dc3545";
+        span.style.color = "white";
+        lives--;
+        updateUI();
+        if (lives <= 0) {
+            gameOver("Nyawa Habis! Cuba lagi.");
+        }
+    }
+}
                 if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
                     span.style.backgroundColor = "#28a745";
                     span.style.color = "white";
