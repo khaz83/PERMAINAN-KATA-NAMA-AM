@@ -79,3 +79,14 @@ button {
     margin-top: 15px;
     width: 100%;
 }
+
+.game-img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #eee;
+}
