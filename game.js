@@ -1,5 +1,5 @@
 const levels = [
-    { tp: "TP1", title: "Aras 1", instruction: "Klik pada kata nama am (Benda).", s: "Saya ada buku.", a: ["buku"] },
+    { tp: "TP1", title: "Aras 1", instruction: "Klik pada kata nama am (Benda).", s: "Saya ada buku.", a: ["buku"], img: "buku.png" },
     { tp: "TP1", title: "Aras 2", instruction: "Klik pada kata nama am (Haiwan).", s: "Itu seekor kucing.", a: ["kucing"] },
     { tp: "TP1", title: "Aras 3", instruction: "Klik pada kata nama am (Tempat).", s: "Rumah itu besar.", a: ["Rumah"] },
     { tp: "TP2", title: "Aras 4", instruction: "Cari 2 kata nama am.", s: "Budak itu bawa beg.", a: ["Budak", "beg"] },
@@ -39,6 +39,15 @@ function loadLevel() {
 
     titleText.innerText = levels[currentLevel].title;
     instructionText.innerHTML = `<span style="color:#007bff; font-weight:bold;">[${levels[currentLevel].tp}]</span> ${levels[currentLevel].instruction}`;
+   
+    // PAPAR GAMBAR
+    if (levels[currentlevel].img {
+        const imgtag = document.createElement('img');
+        imgTag.src = levels[currentLevel].img;
+        imgTag.classname = "game-img"; // Kita akan hias di stle.css
+        container.appendChild(imgTag);
+        container.appendChild(document.createElement('br'));
+    }
     
     progressBar.style.width = `${(currentLevel / levels.length) * 100}%`;
     document.getElementById('high-score').innerText = localStorage.getItem('highScore') || 0;
@@ -50,6 +59,9 @@ function loadLevel() {
         const span = document.createElement('span');
         span.innerText = word;
         span.className = 'word';
+        container.appendChild(span);
+        container.appendchild(document.createTextNode(" "));
+    });
         
         span.onclick = () => {
             if (levels[currentLevel].a.includes(cleanWord)) {
