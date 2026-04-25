@@ -91,32 +91,6 @@ function loadLevel() {
     });
 }
         
-        span.onclick = () => {
-            if (levels[currentLevel].a.includes(cleanWord)) {
-                if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
-                    span.style.backgroundColor = "#28a745";
-                    span.style.color = "white";
-                    score += 10;
-                    foundInLevel++;
-                    updateUI();
-                    if (foundInLevel === levels[currentLevel].a.length) {
-                        nextBtn.style.display = 'block';
-                    }
-                }
-            } else {
-                if (span.style.backgroundColor !== "rgb(220, 53, 69)") {
-                    span.style.backgroundColor = "#dc3545";
-                    span.style.color = "white";
-                    lives--;
-                    updateUI();
-                    if (lives <= 0) gameOver("Nyawa Habis! Cuba lagi.");
-                }
-            }
-        };
-        container.appendChild(span);
-    });
-}
-
 function updateUI() {
     document.getElementById('score').innerText = score;
     document.getElementById('lives').innerText = lives;
@@ -138,4 +112,5 @@ function gameOver(msg) {
     location.reload();
 }
 
-loadLevel();
+//Mula Game
+document.addEventListerner('DOMContentLoaded',loadLevel);
