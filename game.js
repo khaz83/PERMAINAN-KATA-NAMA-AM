@@ -1,7 +1,7 @@
 const levels = [
     { tp: "TP1", title: "Aras 1", instruction: "Klik pada kata nama am (Benda).", s: "Saya ada buku.", a: ["buku"], img: "buku.png" },
-    { tp: "TP1", title: "Aras 2", instruction: "Klik pada kata nama am (Haiwan).", s: "Itu seekor kucing.", a: ["kucing"] },
-    { tp: "TP1", title: "Aras 3", instruction: "Klik pada kata nama am (Tempat).", s: "Rumah itu besar.", a: ["Rumah"] },
+    { tp: "TP1", title: "Aras 2", instruction: "Klik pada kata nama am (Haiwan).", s: "Itu seekor kucing.", a: ["kucing"], img: "kucing.png" },
+    { tp: "TP1", title: "Aras 3", instruction: "Klik pada kata nama am (Tempat).", s: "Rumah itu besar.", a: ["Rumah"], img: "rumah.png" },
     { tp: "TP2", title: "Aras 4", instruction: "Cari 2 kata nama am.", s: "Budak itu bawa beg.", a: ["Budak", "beg"] },
     { tp: "TP2", title: "Aras 5", instruction: "Cari 2 kata nama am.", s: "Burung terbang di langit.", a: ["Burung", "langit"] },
     { tp: "TP2", title: "Aras 6", instruction: "Cari kata nama am.", s: "Emak masak di dapur.", a: ["Emak", "dapur"] },
@@ -33,14 +33,16 @@ function loadLevel() {
     const titleText = document.getElementById('level-title');
     const progressBar = document.getElementById('progress-bar');
     
+    if (!container) return;
+
     container.innerHTML = '';
     nextBtn.style.display = 'none';
     foundInLevel = 0;
 
     titleText.innerText = levels[currentLevel].title;
     instructionText.innerHTML = `<span style="color:#007bff; font-weight:bold;">[${levels[currentLevel].tp}]</span> ${levels[currentLevel].instruction}`;
-   
-    // 1.PAPAR GAMBAR 
+    
+    // 1. PAPAR GAMBAR
     if (levels[currentLevel].img) {
         const imgTag = document.createElement('img');
         imgTag.src = levels[currentLevel].img;
@@ -59,59 +61,16 @@ function loadLevel() {
         const span = document.createElement('span');
         span.innerText = word;
         span.className = 'word';
-        
-    //2. LOGIK KLIK (Mesti berada di dalam foeEach)
-    span.onclick = () => {
-    // Tambah .toLowerCase() pada kedua-dua pihak untuk perbandingan yang adil
-    const isCorrect = levels[currentLevel].a.some(answer => 
-        answer.toLowerCase() === cleanWord.toLowerCase()
-    );
 
-        if (isCorrect) {
-        if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
-            span.style.backgroundColor = "#28a745";
-            span.style.color = "white";
-            score += 10;
-            foundInLevel++;
-            updateUI();
-            if (foundInLevel === levels[currentLevel].a.length) {
-                document.getElementById('next-btn').style.display = 'block';
-            }
-        }
-    } else {
-        // ... kod untuk jawapan salah tetap sama ...
-    }
-};
-        
-        if (levels[currentLevel].a.includes(cleanWord)) {
-        // Kod baru yang lebih selamat:
-const isCorrect = levels[currentLevel].a.some(jawapan => 
-    jawapan.toLowerCase() === cleanWord.toLowerCase()
-);
+        // 2. LOGIK KLIK
+        span.onclick = () => {
+            // Bandingkan jawapan (abaikan huruf besar/kecil)
+            const isCorrect = levels[currentLevel].a.some(jawapan => 
+                jawapan.toLowerCase() === cleanWord.toLowerCase()
+            );
 
-if (isCorrect) {
-    if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
-        span.style.backgroundColor = "#28a745";
-        span.style.color = "white";
-        score += 10;
-        foundInLevel++;
-        updateUI();
-        if (foundInLevel === levels[currentLevel].a.length) {
-            nextBtn.style.display = 'block';
-        }
-    }
-} else {
-    // Bahagian JAWAPAN SALAH kekal sama seperti kod anda
-    if (span.style.backgroundColor !== "rgb(220, 53, 69)") {
-        span.style.backgroundColor = "#dc3545";
-        span.style.color = "white";
-        lives--;
-        updateUI();
-        if (lives <= 0) {
-            gameOver("Nyawa Habis! Cuba lagi.");
-        }
-    }
-}
+            if (isCorrect) {
+                // JAWAPAN BETUL
                 if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
                     span.style.backgroundColor = "#28a745";
                     span.style.color = "white";
@@ -135,11 +94,12 @@ if (isCorrect) {
                 }
             }
         };
+
         container.appendChild(span);
         container.appendChild(document.createTextNode(" "));
     });
 }
-        
+
 function updateUI() {
     document.getElementById('score').innerText = score;
     document.getElementById('lives').innerText = lives;
@@ -161,5 +121,5 @@ function gameOver(msg) {
     location.reload();
 }
 
-//Mula Game
-document.addEventListener('DOMContentLoaded',loadLevel);
+// MULA GAME
+document.addEventListener('DOMContentLoaded', loadLevel);
