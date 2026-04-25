@@ -1,7 +1,7 @@
 const levels = [
     { tp: "TP1", title: "Aras 1", instruction: "Klik pada kata nama am (Benda).", s: "Saya ada buku.", a: ["buku"], img: "buku.png" },
-    { tp: "TP1", title: "Aras 2", instruction: "Klik pada kata nama am (Haiwan).", s: "Itu seekor kucing.", a: ["kucing"], img: "kucing.png" },
-    { tp: "TP1", title: "Aras 3", instruction: "Klik pada kata nama am (Tempat).", s: "Rumah itu besar.", a: ["Rumah"], img: "rumah.png" },
+    { tp: "TP1", title: "Aras 2", instruction: "Klik pada kata nama am (Haiwan).", s: "Itu seekor kucing.", a: ["kucing"],
+    { tp: "TP1", title: "Aras 3", instruction: "Klik pada kata nama am (Tempat).", s: "Rumah itu besar.", a: ["Rumah"], 
     { tp: "TP2", title: "Aras 4", instruction: "Cari 2 kata nama am.", s: "Budak itu bawa beg.", a: ["Budak", "beg"] },
     { tp: "TP2", title: "Aras 5", instruction: "Cari 2 kata nama am.", s: "Burung terbang di langit.", a: ["Burung", "langit"] },
     { tp: "TP2", title: "Aras 6", instruction: "Cari kata nama am.", s: "Emak masak di dapur.", a: ["Emak", "dapur"] },
@@ -14,7 +14,7 @@ const levels = [
     { tp: "TP4", title: "Aras 13", instruction: "Cari kata nama am (Tempat).", s: "Kami mandi di pantai.", a: ["pantai"] },
     { tp: "TP4", title: "Aras 14", instruction: "Cari kata nama am (Benda).", s: "Abang asah pensel itu.", a: ["pensel"] },
     { tp: "TP5", title: "Aras 15", instruction: "Cari 3 kata nama am.", s: "Petani tanam padi di sawah.", a: ["Petani", "padi", "sawah"] },
-    { tp: "TP5", title: "Aras 16", instruction: "Cari 3 kata nama am.", s: "Nelayan tangkap ikan di laut.", a: ["Nelayan", "ikan", "laut"] },
+    { tp: "TP5", title: "Aras 16", instruction: "Cari 3 kata nama am.", s: "Nelayan tangkap ikan di laut.", a: ["Nelayan", "fish", "laut"] },
     { tp: "TP5", title: "Aras 17", instruction: "Cari semua kata nama am.", s: "Monyet makan pisang atas pokok.", a: ["Monyet", "pisang", "pokok"] },
     { tp: "TP6", title: "Aras 18", instruction: "Analisis: Mana satu kata nama am?", s: "Lori bawa pasir ke tapak binaan.", a: ["Lori", "pasir", "tapak", "binaan"] },
     { tp: "TP6", title: "Aras 19", instruction: "Cari subjek dan objek (am).", s: "Tukang kayu itu buat meja.", a: ["Tukang", "kayu", "meja"] },
@@ -112,5 +112,4 @@ function gameOver(msg) {
     location.reload();
 }
 
-// MULA GAME - Pastikan ejaan addEventListener betul
 document.addEventListener('DOMContentLoaded', loadLevel);
