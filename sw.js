@@ -1,4 +1,4 @@
-const cacheName = 'kata-nama-v2';
+const cacheName = 'kata-nama-v3';
 const assets = [
   './',
   './index.html',
