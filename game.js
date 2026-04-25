@@ -40,8 +40,8 @@ function loadLevel() {
     titleText.innerText = levels[currentLevel].title;
     instructionText.innerHTML = `<span style="color:#007bff; font-weight:bold;">[${levels[currentLevel].tp}]</span> ${levels[currentLevel].instruction}`;
    
-    // PAPAR GAMBAR
-    if (levels[currentlevel].img {
+    // 1.PAPAR GAMBAR (Pastikan ejaan currentLevel betul)
+    if (levels[currentLevel].img {
         const imgtag = document.createElement('img');
         imgTag.src = levels[currentLevel].img;
         imgTag.classname = "game-img"; // Kita akan hias di stle.css
@@ -59,6 +59,30 @@ function loadLevel() {
         const span = document.createElement('span');
         span.innerText = word;
         span.className = 'word';
+    //2. LOGIK KLIK (Mesti berada di dalam foeEach)
+        if (levels[currentLevel].a.includes(cleanWord)) {
+                if (span.style.backgroundColor !== "rgb(40, 167, 69)") {
+                    span.style.backgroundColor = "#28a745";
+                    span.style.color = "white";
+                    score += 10;
+                    foundInLevel++;
+                    updateUI();
+                    if (foundInLevel === levels[currentLevel].a.length) {
+                        nextBtn.style.display = 'block';
+                    }
+                }
+            } else {
+                if (span.style.backgroundColor !== "rgb(220, 53, 69)") {
+                    span.style.backgroundColor = "#dc3545";
+                    span.style.color = "white";
+                    lives--;
+                    updateUI();
+                    if (lives <= 0) {
+                        gameOver("Nyawa Habis! Cuba lagi.");
+                    }
+                }
+            }
+        };
         container.appendChild(span);
         container.appendchild(document.createTextNode(" "));
     });
